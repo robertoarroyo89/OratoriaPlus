@@ -7,7 +7,7 @@
 //   · Exponer helpers de desbloqueo secuencial y progreso global.
 // ─────────────────────────────────────────────────────────────────────────
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { doc, onSnapshot, setDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig';
 import { useAuth } from './AuthContext';
 import {
@@ -52,10 +52,18 @@ export function CourseProvider({ children }) {
     }
     setCargandoPerfil(true);
     const ref = doc(db, 'usuarios', user.uid);
-    const unsub = onSnapshot(ref, (snap) => {
-      setPerfil(snap.exists() ? snap.data() : null);
-      setCargandoPerfil(false);
-    });
+    const unsub = onSnapshot(
+      ref,
+      (snap) => {
+        setPerfil(snap.exists() ? snap.data() : null);
+        setCargandoPerfil(false);
+      },
+      (err) => {
+        // Suele indicar reglas de Firestore sin publicar (permission-denied).
+        console.error('No se pudo leer el perfil en Firestore:', err);
+        setCargandoPerfil(false);
+      }
+    );
     return unsub;
   }, [user]);
 
@@ -117,60 +125,69 @@ export function CourseProvider({ children }) {
    * @returns {{ subioNivel: boolean, nuevaRacha: number }}
    */
   async function completeLesson(leccionId, autoCoaching = null) {
-    if (!user || !perfil) throw new Error('No hay sesión activa.');
+    if (!user) throw new Error('No hay sesión activa.');
 
-    const yaCompletada = isCompleted(leccionId);
+    // Partimos del perfil actual o de valores por defecto. Si el documento no
+    // existiera, setDoc con merge lo crea; si existe, hace merge profundo de
+    // los mapas anidados (conservando el resto de lecciones/logros).
+    const base = perfil || {};
+    const completadasActuales = base.leccionesCompletadas || {};
+    const yaCompletada = Boolean(completadasActuales[leccionId]);
     const hoy = hoyISO();
-    const ultima = perfil.ultimaActividad;
+    const ultima = base.ultimaActividad || null;
 
-    // 1) Racha ──────────────────────────────────────────────────────────
-    let nuevaRacha = perfil.streak || 0;
-    let nuevosDias = perfil.diasCompletados || 0;
-    const esPrimeraActividadDeHoy = ultima !== hoy;
-
-    if (esPrimeraActividadDeHoy) {
+    // 1) Racha
+    let nuevaRacha = base.streak || 0;
+    let nuevosDias = base.diasCompletados || 0;
+    if (ultima !== hoy) {
       const gap = ultima ? diasEntre(ultima, hoy) : null;
-      if (gap === 1) nuevaRacha += 1; // ayer → sigue la racha
-      else nuevaRacha = 1; // primer día o racha rota → reinicia a 1
+      nuevaRacha = gap === 1 ? nuevaRacha + 1 : 1; // ayer → sigue; si no, reinicia
       nuevosDias += 1;
     }
 
-    // 2) XP y nivel ──────────────────────────────────────────────────────
-    // Solo suma XP la primera vez que se completa cada lección.
-    const nuevoXp = yaCompletada ? xp : xp + XP_POR_LECCION;
+    // 2) XP y nivel (solo suma la primera vez que se completa la lección)
+    const xpActual = base.xp || 0;
+    const nivelActual = base.nivel || 1;
+    const nuevoXp = yaCompletada ? xpActual : xpActual + XP_POR_LECCION;
     const nuevoNivel = Math.floor(nuevoXp / XP_POR_NIVEL) + 1;
-    const subioNivel = nuevoNivel > nivel;
+    const subioNivel = nuevoNivel > nivelActual;
 
-    // 3) Logros ──────────────────────────────────────────────────────────
-    // Proyectamos el estado resultante y vemos qué logros se desbloquean.
-    const leccionesProyectadas = {
-      ...leccionesCompletadas,
-      [leccionId]: true, // basta la presencia de la clave para el evaluador
-    };
+    // 3) Logros
+    const leccionesProyectadas = { ...completadasActuales, [leccionId]: true };
     const desbloqueados = logrosDesbloqueados({
       leccionesCompletadas: leccionesProyectadas,
       streak: nuevaRacha,
     });
-    const yaTenidos = perfil.logros || {};
+    const yaTenidos = base.logros || {};
     const nuevosIds = [...desbloqueados].filter((id) => !yaTenidos[id]);
-
-    // 4) Escritura en Firestore ──────────────────────────────────────────
-    const ref = doc(db, 'usuarios', user.uid);
-    const update = {
-      streak: nuevaRacha,
-      diasCompletados: nuevosDias,
-      ultimaActividad: hoy,
-      xp: nuevoXp,
-      nivel: nuevoNivel,
-      [`leccionesCompletadas.${leccionId}`]: {
-        completadaEn: new Date().toISOString(),
-        autoCoaching: autoCoaching || null,
-      },
-    };
+    const logrosNuevos = {};
     nuevosIds.forEach((id) => {
-      update[`logros.${id}`] = { desbloqueadoEn: new Date().toISOString() };
+      logrosNuevos[id] = { desbloqueadoEn: new Date().toISOString() };
     });
-    await updateDoc(ref, update);
+
+    // 4) Escritura con setDoc + merge (objetos anidados, sin rutas con puntos:
+    //    los IDs llevan guiones y las field-paths con puntos no los admiten).
+    const ref = doc(db, 'usuarios', user.uid);
+    await setDoc(
+      ref,
+      {
+        displayName: base.displayName || user.displayName || 'Orador/a',
+        email: base.email || user.email || null,
+        streak: nuevaRacha,
+        diasCompletados: nuevosDias,
+        ultimaActividad: hoy,
+        xp: nuevoXp,
+        nivel: nuevoNivel,
+        leccionesCompletadas: {
+          [leccionId]: {
+            completadaEn: new Date().toISOString(),
+            autoCoaching: autoCoaching || null,
+          },
+        },
+        logros: logrosNuevos,
+      },
+      { merge: true }
+    );
 
     return {
       subioNivel,

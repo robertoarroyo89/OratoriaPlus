@@ -9,6 +9,7 @@ import { useCourse } from '../context/CourseContext';
 import { flattenLecciones } from '../data/courseData';
 import ConfettiCelebration from '../components/ConfettiCelebration';
 import LogroPopup from '../components/LogroPopup';
+import { mensajeGuardado } from '../firebase/errores';
 
 export default function LessonPlayerView() {
   const { leccionId } = useParams();
@@ -25,6 +26,7 @@ export default function LessonPlayerView() {
   const [guardando, setGuardando] = useState(false);
   const [nuevosLogros, setNuevosLogros] = useState([]);
   const [mostrarLogros, setMostrarLogros] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   if (!leccion || leccion.tipo !== 'teoria') {
     return (
@@ -44,11 +46,15 @@ export default function LessonPlayerView() {
   const progreso = Math.round(((i + 1) / tarjetas.length) * 100);
 
   async function completar() {
+    setErrorMsg('');
     setGuardando(true);
     try {
       const res = await completeLesson(leccion.id);
       setNuevosLogros(res?.nuevosLogros || []);
       setCelebrar(true);
+    } catch (err) {
+      console.error('Error al completar la lección:', err);
+      setErrorMsg(mensajeGuardado(err));
     } finally {
       setGuardando(false);
     }
@@ -102,6 +108,11 @@ export default function LessonPlayerView() {
       </div>
 
       {/* Navegación */}
+      {errorMsg && (
+        <p className="mt-4 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-center text-sm text-red-300">
+          {errorMsg}
+        </p>
+      )}
       <div className="mt-6 flex items-center justify-between gap-3">
         <button
           className="btn-ghost"

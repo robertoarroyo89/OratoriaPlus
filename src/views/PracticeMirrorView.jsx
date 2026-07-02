@@ -18,6 +18,7 @@ import { useWebcam } from '../hooks/useWebcam';
 import { flattenLecciones } from '../data/courseData';
 import ConfettiCelebration from '../components/ConfettiCelebration';
 import LogroPopup from '../components/LogroPopup';
+import { mensajeGuardado } from '../firebase/errores';
 
 const EMOJIS = [
   { valor: 1, cara: '😣', etiqueta: 'Muy incómodo' },
@@ -53,6 +54,7 @@ export default function PracticeMirrorView() {
   const [guardando, setGuardando] = useState(false);
   const [nuevosLogros, setNuevosLogros] = useState([]);
   const [mostrarLogros, setMostrarLogros] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
   const intervalRef = useRef(null);
 
   // Guardia: lección inexistente o de tipo incorrecto.
@@ -105,6 +107,7 @@ export default function PracticeMirrorView() {
   }
 
   async function finalizar() {
+    setErrorMsg('');
     setGuardando(true);
     try {
       // Solo persistimos las respuestas de auto-coaching, jamás el vídeo.
@@ -115,10 +118,12 @@ export default function PracticeMirrorView() {
           logrado: Boolean(checks[idx]),
         })),
       };
-      await completeLesson(leccion.id, autoCoaching).then((res) => {
-        setNuevosLogros(res?.nuevosLogros || []);
-      });
+      const res = await completeLesson(leccion.id, autoCoaching);
+      setNuevosLogros(res?.nuevosLogros || []);
       setCelebrar(true);
+    } catch (err) {
+      console.error('Error al finalizar la práctica:', err);
+      setErrorMsg(mensajeGuardado(err));
     } finally {
       setGuardando(false);
     }
@@ -299,6 +304,12 @@ export default function PracticeMirrorView() {
               ))}
             </div>
           </div>
+
+          {errorMsg && (
+            <p className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-center text-sm text-red-300">
+              {errorMsg}
+            </p>
+          )}
 
           <button
             className="btn-success w-full"
