@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base ──────────────────────────────────────────────────────────────── */
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-base text-ink font-sans antialiased;
+  /* Halo de "foco de escenario" muy sutil, fijo al fondo. */
+  background-image: radial-gradient(
+    900px 500px at 50% -10%,
+    rgba(139, 124, 255, 0.12),
+    transparent 60%
+  );
+  background-attachment: fixed;
+}
+
+/* Respeta la preferencia de movimiento reducido del sistema. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ─── Componentes reutilizables ─────────────────────────────────────────── */
+@layer components {
+  .card {
+    @apply bg-surface border border-line rounded-2xl shadow-card;
+  }
+
+  /* Botón primario con tacto "premium": realce y micro-presión. */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-violet px-5 py-3
+      font-display font-semibold text-white shadow-glow transition
+      hover:bg-violet-deep active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-line
+      bg-transparent px-5 py-3 font-display font-semibold text-ink transition
+      hover:bg-elevated active:scale-[0.98];
+  }
+
+  .btn-success {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-emerald px-5 py-3
+      font-display font-semibold text-base transition hover:brightness-110 active:scale-[0.98];
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-line bg-base/60 px-4 py-3 text-ink
+      placeholder:text-faint outline-none transition
+      focus:border-violet focus:ring-2 focus:ring-violet/40;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line
+      bg-elevated px-3 py-1 text-xs font-medium text-muted;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.18em] text-violet-soft;
+  }
+}
+
+/* Focus visible accesible en cualquier elemento interactivo. */
+:where(a, button, input, [tabindex]):focus-visible {
+  outline: 2px solid theme('colors.violet.soft');
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+
+/* Scrollbar discreta y acorde a la paleta. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: theme('colors.line');
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: theme('colors.elevated');
+}

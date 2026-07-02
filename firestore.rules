@@ -1,0 +1,25 @@
+rules_version = '2';
+
+// ─────────────────────────────────────────────────────────────────────────
+//  Reglas de seguridad de Firestore.
+//  Regla de oro: cada usuario solo puede leer y escribir SU propio documento.
+//
+//  IMPORTANTE (recordatorio de flujo): tras editar este archivo hay que
+//  RE-PUBLICAR las reglas manualmente para que surtan efecto —
+//  ya sea desde la consola de Firebase (Firestore → Reglas → Publicar)
+//  o con:  firebase deploy --only firestore:rules
+// ─────────────────────────────────────────────────────────────────────────
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /usuarios/{uid} {
+      // Solo el dueño autenticado accede a su perfil.
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Todo lo demás queda denegado por defecto.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
