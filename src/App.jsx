@@ -7,6 +7,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AuthView from './views/AuthView';
 import DashboardView from './views/DashboardView';
 import ProgressView from './views/ProgressView';
+import CalendarView from './views/CalendarView';
+import ProfileView from './views/ProfileView';
 import LessonPlayerView from './views/LessonPlayerView';
 import PracticeMirrorView from './views/PracticeMirrorView';
 
@@ -28,6 +30,22 @@ export default function App() {
         element={
           <ProtectedRoute>
             <ProgressView />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/calendario"
+        element={
+          <ProtectedRoute>
+            <CalendarView />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/perfil"
+        element={
+          <ProtectedRoute>
+            <ProfileView />
           </ProtectedRoute>
         }
       />

@@ -1,8 +1,11 @@
 # 🎤 Oratoria · Curso con Coaching
 
-SPA de un curso de oratoria (3–4 meses) con gamificación estilo Duolingo:
-rachas 🔥, camino de aprendizaje por bloques, tarjetas de micro-learning y un
-**espejo digital** con webcam local + auto-coaching.
+SPA de un curso de oratoria completo (4 meses · **80 micro-lecciones**: 48 de teoría
+en tarjetas + 32 prácticas con espejo digital) con gamificación estilo Duolingo:
+rachas 🔥, insignias, camino de aprendizaje, calendario de constancia y auto-coaching.
+El temario está basado en técnicas de coaches y comunicadores reconocidos
+(reencuadre de la ansiedad, respiración táctica, regla de tres, storytelling con
+contraste, las 4 P de la voz, improvisación estilo Toastmasters, retórica clásica).
 
 **Stack:** React + Vite · React Router · Tailwind CSS · Firebase (Auth + Firestore).
 
@@ -92,7 +95,12 @@ oratoria-coaching/
    ├─ hooks/
    │  └─ useWebcam.js          # getUserMedia local-first (no sube nada)
    ├─ data/
-   │  └─ courseData.js         # 4 bloques · semanas · micro-lecciones (editable)
+   │  ├─ courseData.js         # ensambla los bloques + utilidades
+   │  ├─ bloque1.js            # Mes 1 · Mentalidad (20 lecciones)
+   │  ├─ bloque2.js            # Mes 2 · Lenguaje corporal (20)
+   │  ├─ bloque3.js            # Mes 3 · Discurso y storytelling (20)
+   │  ├─ bloque4.js            # Mes 4 · Voz, impro y persuasión (20)
+   │  └─ logros.js             # catálogo de insignias + evaluador
    ├─ components/
    │  ├─ Header.jsx            # racha 🔥 + barra de nivel
    │  ├─ LessonNode.jsx        # nodo del camino (estados)
@@ -101,6 +109,9 @@ oratoria-coaching/
    └─ views/
       ├─ AuthView.jsx
       ├─ DashboardView.jsx     # el "Camino de la Oratoria"
+      ├─ CalendarView.jsx      # calendario de constancia 🔥
+      ├─ ProgressView.jsx      # estadísticas + insignias
+      ├─ ProfileView.jsx       # perfil editable + sesión
       ├─ LessonPlayerView.jsx  # reproductor de tarjetas
       └─ PracticeMirrorView.jsx  # espejo + cronómetro + auto-coaching
 ```

@@ -6,7 +6,9 @@ import { NavLink } from 'react-router-dom';
 
 const ITEMS = [
   { to: '/', label: 'Camino', icono: '🗺️' },
+  { to: '/calendario', label: 'Calendario', icono: '📅' },
   { to: '/progreso', label: 'Progreso', icono: '📈' },
+  { to: '/perfil', label: 'Perfil', icono: '👤' },
 ];
 
 export default function BottomNav() {
