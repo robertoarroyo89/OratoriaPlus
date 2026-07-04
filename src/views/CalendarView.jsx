@@ -100,7 +100,7 @@ export default function CalendarView() {
             >
               ←
             </button>
-            <h3 className="font-display text-base font-bold capitalize">{tituloMes}</h3>
+            <h3 className="font-display text-base font-bold capitalize text-ink">{tituloMes}</h3>
             <button
               onClick={() => moverMes(1)}
               className="rounded-full border border-line px-3 py-1.5 text-sm text-muted transition hover:bg-elevated"
@@ -113,7 +113,7 @@ export default function CalendarView() {
           {/* Cabecera de días */}
           <div className="mt-4 grid grid-cols-7 gap-1 text-center">
             {DIAS_SEMANA.map((d) => (
-              <span key={d} className="py-1 text-xs font-semibold text-faint">
+              <span key={d} className="py-1 text-xs font-semibold text-muted">
                 {d}
               </span>
             ))}
@@ -136,8 +136,8 @@ export default function CalendarView() {
                     n > 0
                       ? 'bg-amber/15 font-semibold text-amber'
                       : esFuturo
-                        ? 'text-faint/50'
-                        : 'text-muted',
+                        ? 'text-faint'
+                        : 'text-ink/85',
                     esHoy ? 'ring-2 ring-violet' : '',
                   ].join(' ')}
                 >
