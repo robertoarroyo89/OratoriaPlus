@@ -7,7 +7,7 @@
 //   · Exponer helpers de desbloqueo secuencial y progreso global.
 // ─────────────────────────────────────────────────────────────────────────
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { doc, onSnapshot, setDoc } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig';
 import { useAuth } from './AuthContext';
 import {
@@ -127,10 +127,12 @@ export function CourseProvider({ children }) {
   async function completeLesson(leccionId, autoCoaching = null) {
     if (!user) throw new Error('No hay sesión activa.');
 
-    // Partimos del perfil actual o de valores por defecto. Si el documento no
-    // existiera, setDoc con merge lo crea; si existe, hace merge profundo de
-    // los mapas anidados (conservando el resto de lecciones/logros).
-    const base = perfil || {};
+    // Leemos el documento FRESCO de Firestore (no el estado de React, que
+    // puede no estar al día en el momento del clic). Así el cálculo de
+    // "logros nuevos" y de la racha siempre parte de la verdad guardada.
+    const ref = doc(db, 'usuarios', user.uid);
+    const snap = await getDoc(ref);
+    const base = snap.exists() ? snap.data() : {};
     const completadasActuales = base.leccionesCompletadas || {};
     const yaCompletada = Boolean(completadasActuales[leccionId]);
     const hoy = hoyISO();
@@ -167,12 +169,14 @@ export function CourseProvider({ children }) {
 
     // 4) Escritura con setDoc + merge (objetos anidados, sin rutas con puntos:
     //    los IDs llevan guiones y las field-paths con puntos no los admiten).
-    const ref = doc(db, 'usuarios', user.uid);
+    //    Si el perfil se creó sin fecha (p. ej. registro con reglas sin
+    //    publicar), la rellenamos aquí una única vez.
     await setDoc(
       ref,
       {
         displayName: base.displayName || user.displayName || 'Orador/a',
         email: base.email || user.email || null,
+        ...(base.creadoEn ? {} : { creadoEn: serverTimestamp() }),
         streak: nuevaRacha,
         diasCompletados: nuevosDias,
         ultimaActividad: hoy,

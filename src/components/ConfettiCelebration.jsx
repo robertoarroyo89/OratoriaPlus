@@ -10,6 +10,12 @@ const COLORES = ['#8B7CFF', '#34D399', '#F5B841', '#A99CFF', '#FFFFFF'];
 export default function ConfettiCelebration({ activo, onDone }) {
   const canvasRef = useRef(null);
 
+  // onDone vive en un ref para que el efecto NO dependa de él: si dependiera,
+  // cada re-render (p. ej. cuando Firestore refresca el perfil) recrearía la
+  // función y reiniciaría la animación desde cero.
+  const onDoneRef = useRef(onDone);
+  onDoneRef.current = onDone;
+
   useEffect(() => {
     if (!activo) return;
     const canvas = canvasRef.current;
@@ -31,6 +37,7 @@ export default function ConfettiCelebration({ activo, onDone }) {
     }));
 
     let raf;
+    let terminado = false;
     const inicio = performance.now();
     const DURACION = 2200;
 
@@ -52,14 +59,15 @@ export default function ConfettiCelebration({ activo, onDone }) {
       });
       if (transcurrido < DURACION) {
         raf = requestAnimationFrame(frame);
-      } else {
+      } else if (!terminado) {
+        terminado = true;
         ctx.clearRect(0, 0, w, h);
-        onDone?.();
+        onDoneRef.current?.();
       }
     }
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
-  }, [activo, onDone]);
+  }, [activo]);
 
   if (!activo) return null;
   return (

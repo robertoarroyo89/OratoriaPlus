@@ -14,11 +14,13 @@ import { useCourse } from '../context/CourseContext';
 import { LOGROS } from '../data/logros';
 
 function fechaLarga(ts) {
+  if (!ts) return null;
   try {
     const d = ts?.toDate ? ts.toDate() : new Date(ts);
+    if (Number.isNaN(d.getTime())) return null; // fecha inválida → sin texto roto
     return d.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
   } catch {
-    return '—';
+    return null;
   }
 }
 
@@ -121,9 +123,15 @@ export default function ProfileView() {
           )}
 
           <p className="mt-1 text-sm text-muted">{user?.email}</p>
-          <p className="mt-1 text-xs text-faint">
-            Practicando desde el {fechaLarga(perfil?.creadoEn)}
-          </p>
+          {(() => {
+            // Preferimos la fecha del perfil; si falta o es inválida, usamos la
+            // fecha real de creación de la cuenta que registra Firebase Auth.
+            const desde =
+              fechaLarga(perfil?.creadoEn) || fechaLarga(user?.metadata?.creationTime);
+            return desde ? (
+              <p className="mt-1 text-xs text-faint">Practicando desde el {desde}</p>
+            ) : null;
+          })()}
           {msg && <p className="mt-2 text-xs text-emerald">{msg}</p>}
         </section>
 
