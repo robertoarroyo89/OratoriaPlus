@@ -87,7 +87,7 @@ export default function ProfileView() {
       <main className="mx-auto max-w-3xl px-4">
         {/* Cabecera de perfil */}
         <section className="card mt-6 flex flex-col items-center p-6 text-center animate-fadeInUp">
-          <div className="grid h-20 w-20 place-items-center rounded-full bg-terra font-display text-3xl font-bold text-white shadow-glow">
+          <div className="grid h-20 w-20 place-items-center rounded-full bg-violet font-display text-3xl font-bold text-white shadow-glow">
             {nombreActual.trim().charAt(0).toUpperCase()}
           </div>
 
@@ -115,7 +115,7 @@ export default function ProfileView() {
                 setNombre(nombreActual);
                 setEditando(true);
               }}
-              className="mt-4 font-display text-xl font-bold transition hover:text-terra-soft"
+              className="mt-4 font-display text-xl font-bold transition hover:text-violet-soft"
               title="Editar nombre"
             >
               {nombreActual} <span className="text-sm text-faint">✎</span>
@@ -132,7 +132,7 @@ export default function ProfileView() {
               <p className="mt-1 text-xs text-faint">Practicando desde el {desde}</p>
             ) : null;
           })()}
-          {msg && <p className="mt-2 text-xs text-forest">{msg}</p>}
+          {msg && <p className="mt-2 text-xs text-emerald">{msg}</p>}
         </section>
 
         {/* Estadísticas */}
@@ -148,7 +148,7 @@ export default function ProfileView() {
         {/* Últimas insignias */}
         {ultimas.length > 0 && (
           <section className="card mt-6 p-5">
-            <p className="eyebrow text-gold">Últimos logros</p>
+            <p className="eyebrow text-amber">Últimos logros</p>
             <div className="mt-3 flex flex-wrap gap-3">
               {ultimas.map((l) => (
                 <span

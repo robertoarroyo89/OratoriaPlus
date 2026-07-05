@@ -48,7 +48,7 @@ export default function AuthView() {
     <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-5 py-10">
       {/* Marca / promesa */}
       <div className="mb-8 text-center">
-        <div className="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-2xl bg-terra text-3xl shadow-glow animate-float">
+        <div className="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-2xl bg-violet text-3xl shadow-glow animate-float">
           🎤
         </div>
         <h1 className="font-display text-2xl font-extrabold tracking-tight">
@@ -64,7 +64,7 @@ export default function AuthView() {
           <button
             onClick={() => setModoRegistro(false)}
             className={`flex-1 rounded-lg py-2 text-sm font-semibold transition ${
-              !modoRegistro ? 'bg-terra text-white' : 'text-muted'
+              !modoRegistro ? 'bg-violet text-white' : 'text-muted'
             }`}
           >
             Entrar
@@ -72,7 +72,7 @@ export default function AuthView() {
           <button
             onClick={() => setModoRegistro(true)}
             className={`flex-1 rounded-lg py-2 text-sm font-semibold transition ${
-              modoRegistro ? 'bg-terra text-white' : 'text-muted'
+              modoRegistro ? 'bg-violet text-white' : 'text-muted'
             }`}
           >
             Crear cuenta

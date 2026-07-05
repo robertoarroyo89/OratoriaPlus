@@ -1,6 +1,6 @@
 // ─────────────────────────────────────────────────────────────────────────
 //  LessonNode · un nodo del "Camino de la Oratoria".
-//  Estados visuales: completado (✓ esmeralda), disponible (pulso terraa),
+//  Estados visuales: completado (✓ esmeralda), disponible (pulso violeta),
 //  bloqueado (candado, no clicable). Alterna a izquierda/derecha (serpenteo).
 // ─────────────────────────────────────────────────────────────────────────
 import { useNavigate } from 'react-router-dom';
@@ -32,7 +32,7 @@ export default function LessonNode({ leccion, estado, lado, delay = 0 }) {
           'group flex w-full max-w-[19rem] items-center gap-3 rounded-2xl border p-3 text-left transition',
           bloqueada
             ? 'cursor-not-allowed border-line/60 bg-surface/40 opacity-60'
-            : 'border-line bg-surface hover:-translate-y-0.5 hover:border-terra hover:shadow-glow',
+            : 'border-line bg-surface hover:-translate-y-0.5 hover:border-violet hover:shadow-glow',
         ].join(' ')}
       >
         {/* Disco del nodo */}
@@ -40,10 +40,10 @@ export default function LessonNode({ leccion, estado, lado, delay = 0 }) {
           className={[
             'grid h-12 w-12 shrink-0 place-items-center rounded-full text-lg font-bold',
             completada
-              ? 'bg-forest text-base'
+              ? 'bg-emerald text-base'
               : bloqueada
                 ? 'bg-elevated text-faint'
-                : 'bg-terra text-white animate-pulseGlow',
+                : 'bg-violet text-white animate-pulseGlow',
           ].join(' ')}
         >
           {icono}

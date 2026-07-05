@@ -18,7 +18,7 @@ body {
   /* Halo de "foco de escenario" muy sutil, fijo al fondo. */
   background-image: radial-gradient(
     900px 500px at 50% -10%,
-    rgba(234, 88, 12, 0.12),
+    rgba(139, 124, 255, 0.12),
     transparent 60%
   );
   background-attachment: fixed;
@@ -43,9 +43,9 @@ body {
 
   /* Botón primario con tacto "premium": realce y micro-presión. */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-terra px-5 py-3
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-violet px-5 py-3
       font-display font-semibold text-white shadow-glow transition
-      hover:bg-terra-deep active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed;
+      hover:bg-violet-deep active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed;
   }
 
   .btn-ghost {
@@ -55,14 +55,14 @@ body {
   }
 
   .btn-success {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-forest px-5 py-3
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-emerald px-5 py-3
       font-display font-semibold text-base transition hover:brightness-110 active:scale-[0.98];
   }
 
   .input {
     @apply w-full rounded-xl border border-line bg-base/60 px-4 py-3 text-ink
       placeholder:text-faint outline-none transition
-      focus:border-terra focus:ring-2 focus:ring-terra/40;
+      focus:border-violet focus:ring-2 focus:ring-violet/40;
   }
 
   .chip {
@@ -71,13 +71,13 @@ body {
   }
 
   .eyebrow {
-    @apply text-xs font-semibold uppercase tracking-[0.18em] text-terra-soft;
+    @apply text-xs font-semibold uppercase tracking-[0.18em] text-violet-soft;
   }
 }
 
 /* Focus visible accesible en cualquier elemento interactivo. */
 :where(a, button, input, [tabindex]):focus-visible {
-  outline: 2px solid theme('colors.terra.soft');
+  outline: 2px solid theme('colors.violet.soft');
   outline-offset: 2px;
   border-radius: 0.5rem;
 }

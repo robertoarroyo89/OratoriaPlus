@@ -22,7 +22,7 @@ export default function BottomNav() {
             end
             className={({ isActive }) =>
               `flex flex-1 flex-col items-center gap-0.5 py-2.5 text-xs font-medium transition ${
-                isActive ? 'text-terra-soft' : 'text-faint hover:text-muted'
+                isActive ? 'text-violet-soft' : 'text-faint hover:text-muted'
               }`
             }
           >

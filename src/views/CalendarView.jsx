@@ -77,15 +77,15 @@ export default function CalendarView() {
         {/* Resumen del mes */}
         <section className="mt-4 grid grid-cols-3 gap-3">
           <div className="card p-4 text-center">
-            <p className="font-display text-2xl font-extrabold text-gold">{streakVigente}</p>
+            <p className="font-display text-2xl font-extrabold text-amber">{streakVigente}</p>
             <p className="text-xs text-muted">racha 🔥</p>
           </div>
           <div className="card p-4 text-center">
-            <p className="font-display text-2xl font-extrabold text-forest">{diasActivosMes}</p>
+            <p className="font-display text-2xl font-extrabold text-emerald">{diasActivosMes}</p>
             <p className="text-xs text-muted">días activos</p>
           </div>
           <div className="card p-4 text-center">
-            <p className="font-display text-2xl font-extrabold text-terra-soft">{leccionesMes}</p>
+            <p className="font-display text-2xl font-extrabold text-violet-soft">{leccionesMes}</p>
             <p className="text-xs text-muted">lecciones</p>
           </div>
         </section>
@@ -134,16 +134,16 @@ export default function CalendarView() {
                   className={[
                     'relative grid aspect-square place-items-center rounded-xl text-sm transition',
                     n > 0
-                      ? 'bg-gold/15 font-semibold text-gold'
+                      ? 'bg-amber/15 font-semibold text-amber'
                       : esFuturo
                         ? 'text-faint'
                         : 'text-ink/85',
-                    esHoy ? 'ring-2 ring-terra' : '',
+                    esHoy ? 'ring-2 ring-violet' : '',
                   ].join(' ')}
                 >
                   {n > 0 ? '🔥' : fecha.getDate()}
                   {n > 1 && (
-                    <span className="absolute -right-0.5 -top-0.5 grid h-4 w-4 place-items-center rounded-full bg-gold text-[0.55rem] font-bold text-base">
+                    <span className="absolute -right-0.5 -top-0.5 grid h-4 w-4 place-items-center rounded-full bg-amber text-[0.55rem] font-bold text-base">
                       {n}
                     </span>
                   )}

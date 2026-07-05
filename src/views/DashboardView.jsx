@@ -57,7 +57,7 @@ export default function DashboardView() {
           </div>
           <div className="mt-3 h-3 overflow-hidden rounded-full bg-elevated">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-forest to-terra transition-all duration-700"
+              className="h-full rounded-full bg-gradient-to-r from-emerald to-violet transition-all duration-700"
               style={{ width: `${progresoGlobal}%` }}
             />
           </div>
@@ -79,7 +79,7 @@ export default function DashboardView() {
           <section key={bloque.id} className="mt-10">
             {/* Cabecera de bloque */}
             <div className="mb-4 flex items-center gap-3">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-elevated font-display text-sm font-bold text-terra-soft">
+              <span className="grid h-9 w-9 place-items-center rounded-xl bg-elevated font-display text-sm font-bold text-violet-soft">
                 {bloque.mes}
               </span>
               <div>
