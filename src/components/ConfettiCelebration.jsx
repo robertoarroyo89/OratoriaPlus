@@ -5,7 +5,7 @@
 // ─────────────────────────────────────────────────────────────────────────
 import { useEffect, useRef } from 'react';
 
-const COLORES = ['#8B7CFF', '#34D399', '#F5B841', '#A99CFF', '#FFFFFF'];
+const COLORES = ['#EA580C', '#10B981', '#F59E0B', '#F97316', '#FFFFFF'];
 
 export default function ConfettiCelebration({ activo, onDone }) {
   const canvasRef = useRef(null);

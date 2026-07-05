@@ -15,7 +15,7 @@ export default function Header() {
       <div className="mx-auto flex max-w-3xl items-center gap-3 px-4 py-3">
         {/* Avatar + nombre */}
         <div className="flex min-w-0 items-center gap-3">
-          <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-violet font-display font-bold text-white">
+          <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-terra font-display font-bold text-white">
             {inicial}
           </div>
           <div className="min-w-0">
@@ -30,7 +30,7 @@ export default function Header() {
         <div className="mx-1 hidden flex-1 sm:block">
           <div className="h-2 overflow-hidden rounded-full bg-elevated">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-violet to-violet-soft transition-all duration-500"
+              className="h-full rounded-full bg-gradient-to-r from-terra to-terra-soft transition-all duration-500"
               style={{ width: `${progresoNivel}%` }}
             />
           </div>
@@ -42,7 +42,7 @@ export default function Header() {
           title="Días seguidos practicando"
         >
           <span className={streakVigente > 0 ? '' : 'opacity-40 grayscale'}>🔥</span>
-          <span className="font-display text-sm font-bold text-amber">{streakVigente}</span>
+          <span className="font-display text-sm font-bold text-gold">{streakVigente}</span>
         </div>
 
         <button

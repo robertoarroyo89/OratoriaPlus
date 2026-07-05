@@ -91,7 +91,8 @@ export default function PracticeMirrorView() {
   }, [fase]);
 
   async function empezarEjercicio() {
-    await iniciar();
+    const ok = await iniciar();
+    if (!ok) return; // sin cámara no arrancamos: el error se muestra en la intro
     setRestante(ej.segundos);
     setFase('grabando');
   }
@@ -164,13 +165,13 @@ export default function PracticeMirrorView() {
       {/* ─── FASE 1: instrucciones de coaching ─────────────────────────── */}
       {fase === 'intro' && (
         <div className="animate-pop space-y-5">
-          <div className="card border-l-4 border-l-violet p-5">
+          <div className="card border-l-4 border-l-terra p-5">
             <p className="eyebrow">Tu objetivo</p>
             <p className="mt-2 text-lg font-medium leading-relaxed">{ej.objetivo}</p>
           </div>
 
           <div className="card p-5">
-            <p className="eyebrow text-emerald">Consejo del coach</p>
+            <p className="eyebrow text-forest">Consejo del coach</p>
             <p className="mt-2 leading-relaxed text-muted">{ej.consejo}</p>
           </div>
 
@@ -183,7 +184,7 @@ export default function PracticeMirrorView() {
           </div>
 
           {error && (
-            <p className="rounded-lg border border-amber/30 bg-amber/10 px-3 py-2 text-sm text-amber">
+            <p className="rounded-lg border border-gold/30 bg-gold/10 px-3 py-2 text-sm text-gold">
               {error}
             </p>
           )}
@@ -203,7 +204,7 @@ export default function PracticeMirrorView() {
           {/* Cronómetro */}
           <div
             className={`text-center font-display text-5xl font-extrabold tabular-nums transition-colors ${
-              tiempoBajo ? 'animate-pulse text-amber' : 'text-ink'
+              tiempoBajo ? 'animate-pulse text-gold' : 'text-ink'
             }`}
           >
             {fmt(restante)}
@@ -261,7 +262,7 @@ export default function PracticeMirrorView() {
                   aria-label={e.etiqueta}
                   className={`flex flex-1 flex-col items-center gap-1 rounded-xl border p-2 transition ${
                     sensacion === e.valor
-                      ? 'border-violet bg-violet/15 scale-105'
+                      ? 'border-terra bg-terra/15 scale-105'
                       : 'border-line hover:bg-elevated'
                   }`}
                 >
@@ -284,14 +285,14 @@ export default function PracticeMirrorView() {
                   onClick={() => toggleCheck(idx)}
                   className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition ${
                     checks[idx]
-                      ? 'border-emerald bg-emerald/10'
+                      ? 'border-forest bg-forest/10'
                       : 'border-line hover:bg-elevated'
                   }`}
                 >
                   <span
                     className={`grid h-6 w-6 shrink-0 place-items-center rounded-md border text-sm ${
                       checks[idx]
-                        ? 'border-emerald bg-emerald text-base'
+                        ? 'border-forest bg-forest text-base'
                         : 'border-faint text-transparent'
                     }`}
                   >

@@ -4,23 +4,23 @@ export default {
   theme: {
     extend: {
       // ─── Paleta "Escenario" ──────────────────────────────────────────────
-      // Fondo cálido-carbón (no slate genérico) + violeta foco motivacional
-      // + ámbar de luz de escenario para la racha + esmeralda para el éxito.
+      // Fondo cálido-carbón (no slate genérico) + terraa foco motivacional
+      // + dorado para la racha + verde bosque para el éxito.
       colors: {
-        base: '#161320',      // fondo profundo (sala a oscuras)
-        surface: '#211C2E',   // tarjetas / superficies elevadas
-        elevated: '#2C2540',  // hover / superficies sobre superficies
-        line: '#3A3350',      // bordes sutiles
-        violet: {
-          DEFAULT: '#8B7CFF', // acento principal (foco motivacional)
-          soft: '#A99CFF',
-          deep: '#6C5CE7',
+        base: '#1F2937',       // fondo principal (gris oscuro cálido)
+        surface: '#2D3748',   // tarjetas / superficies elevadas
+        elevated: '#374151',  // hover / superficies sobre superficies
+        line: '#4B5563',      // bordes sutiles
+        terra: {
+          DEFAULT: '#EA580C', // acento principal (terracota)
+          soft: '#F97316',
+          deep: '#C2410C',
         },
-        amber: '#F5B841',     // luz de escenario / racha 🔥
-        emerald: '#34D399',   // progreso / éxito
-        ink: '#F4F2FA',       // texto principal (blanco cálido)
-        muted: '#A29DB5',     // texto secundario
-        faint: '#6E6883',     // texto terciario / deshabilitado
+        gold: '#F59E0B',     // luz de escenario / racha 🔥
+        forest: '#10B981',   // progreso / éxito
+        ink: '#F3F4F6',        // texto principal (blanco cálido)
+        muted: '#9CA3AF',      // texto secundario
+        faint: '#6B7280',      // texto terciario / deshabilitado
       },
       fontFamily: {
         // Sora para display (carácter, moderno) · Inter para lectura cómoda.
@@ -32,7 +32,7 @@ export default {
         '2xl': '1.5rem',
       },
       boxShadow: {
-        glow: '0 0 0 1px rgba(139,124,255,0.35), 0 8px 30px -8px rgba(139,124,255,0.45)',
+        glow: '0 0 0 1px rgba(234,88,12,0.35), 0 8px 30px -8px rgba(234,88,12,0.45)',
         card: '0 12px 40px -18px rgba(0,0,0,0.6)',
       },
       keyframes: {
@@ -46,8 +46,8 @@ export default {
           '50%': { transform: 'translateY(-6px)' },
         },
         pulseGlow: {
-          '0%,100%': { boxShadow: '0 0 0 0 rgba(139,124,255,0.5)' },
-          '50%': { boxShadow: '0 0 0 12px rgba(139,124,255,0)' },
+          '0%,100%': { boxShadow: '0 0 0 0 rgba(234,88,12,0.5)' },
+          '50%': { boxShadow: '0 0 0 12px rgba(234,88,12,0)' },
         },
         fadeIn: {
           '0%': { opacity: '0' },
