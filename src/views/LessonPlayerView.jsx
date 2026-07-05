@@ -85,7 +85,7 @@ export default function LessonPlayerView() {
         </button>
         <div className="h-2 flex-1 overflow-hidden rounded-full bg-elevated">
           <div
-            className="h-full rounded-full bg-violet transition-all duration-300"
+            className="h-full rounded-full bg-terra transition-all duration-300"
             style={{ width: `${progreso}%` }}
           />
         </div>

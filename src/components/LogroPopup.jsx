@@ -9,7 +9,7 @@ export default function LogroPopup({ logros, onClose }) {
   return (
     <div className="fixed inset-0 z-50 grid place-items-center bg-base/85 p-6 backdrop-blur animate-fadeIn">
       <div className="card w-full max-w-sm p-6 text-center animate-pop">
-        <p className="eyebrow text-amber">
+        <p className="eyebrow text-gold">
           {varios ? `¡${logros.length} logros nuevos!` : '¡Logro desbloqueado!'}
         </p>
 

@@ -74,9 +74,9 @@ export default function ProgressView() {
   const diasCompletados = perfil?.diasCompletados ?? 0;
 
   const stats = [
-    { label: 'Racha', valor: streakVigente, sufijo: streakVigente === 1 ? 'día seguido' : 'días seguidos', icono: '🔥', color: 'text-amber' },
-    { label: 'Nivel', valor: nivel, sufijo: `${xp} XP acumulados`, icono: '⭐', color: 'text-violet-soft' },
-    { label: 'Días activos', valor: diasCompletados, sufijo: 'en total', icono: '📅', color: 'text-emerald' },
+    { label: 'Racha', valor: streakVigente, sufijo: streakVigente === 1 ? 'día seguido' : 'días seguidos', icono: '🔥', color: 'text-gold' },
+    { label: 'Nivel', valor: nivel, sufijo: `${xp} XP acumulados`, icono: '⭐', color: 'text-terra-soft' },
+    { label: 'Días activos', valor: diasCompletados, sufijo: 'en total', icono: '📅', color: 'text-forest' },
     { label: 'Curso', valor: `${progresoGlobal}%`, sufijo: `${nCompletadas}/${totalLecciones} lecciones`, icono: '🎯', color: 'text-ink' },
   ];
 
@@ -106,7 +106,7 @@ export default function ProgressView() {
 
         {/* Insignias / logros */}
         <section className="mt-6">
-          <p className="eyebrow text-amber">Logros</p>
+          <p className="eyebrow text-gold">Logros</p>
           <h3 className="mb-3 mt-1 font-display text-lg font-bold">
             Insignias {Object.keys(logros).length}/{LOGROS.length}
           </h3>
@@ -118,7 +118,7 @@ export default function ProgressView() {
                   key={l.id}
                   title={l.descripcion}
                   className={`card flex flex-col items-center gap-1 p-4 text-center transition ${
-                    got ? 'border-amber/40' : 'opacity-60'
+                    got ? 'border-gold/40' : 'opacity-60'
                   }`}
                 >
                   <span className={`text-3xl ${got ? '' : 'grayscale'}`}>
@@ -136,7 +136,7 @@ export default function ProgressView() {
 
         {/* Evolución de sensaciones */}
         <section className="card mt-6 p-5">
-          <p className="eyebrow text-emerald">Cómo te has sentido</p>
+          <p className="eyebrow text-forest">Cómo te has sentido</p>
           <h3 className="mt-1 font-display text-lg font-bold">Evolución de tus prácticas</h3>
           {ultimas.length === 0 ? (
             <p className="mt-4 text-sm text-muted">
@@ -149,7 +149,7 @@ export default function ProgressView() {
                 <div key={idx} className="flex flex-1 flex-col items-center justify-end gap-1">
                   <span className="text-lg">{EMOJI[p.sensacion]}</span>
                   <div
-                    className="w-full rounded-t-lg bg-gradient-to-t from-violet-deep to-violet-soft transition-all duration-500"
+                    className="w-full rounded-t-lg bg-gradient-to-t from-terra-deep to-terra-soft transition-all duration-500"
                     style={{ height: `${(p.sensacion / 5) * 100}%` }}
                     title={`Sensación ${p.sensacion}/5`}
                   />
@@ -179,7 +179,7 @@ export default function ProgressView() {
                   </div>
                   <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-elevated">
                     <div
-                      className="h-full rounded-full bg-emerald transition-all duration-500"
+                      className="h-full rounded-full bg-forest transition-all duration-500"
                       style={{ width: `${pct}%` }}
                     />
                   </div>
@@ -218,7 +218,7 @@ export default function ProgressView() {
                       <div className="mt-3 space-y-1.5">
                         {p.checklist.map((c, i) => (
                           <div key={i} className="flex items-center gap-2 text-xs">
-                            <span className={c.logrado ? 'text-emerald' : 'text-faint'}>
+                            <span className={c.logrado ? 'text-forest' : 'text-faint'}>
                               {c.logrado ? '✓' : '○'}
                             </span>
                             <span className={c.logrado ? 'text-muted' : 'text-faint'}>
